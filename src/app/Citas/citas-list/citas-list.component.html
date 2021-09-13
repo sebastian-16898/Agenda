@@ -1,0 +1,140 @@
+<body>
+    <div class="p-field">
+        <div class="card-body text-center">
+            <div class="card-header">
+                <p-table #dt [value]="cita" [rows]="10" [paginator]="true" [globalFilterFields]="['id_paciente.pa_cedula','id_paciente.pa_apellidos',
+                    'id_hora_inicio.hora_inicio','fecha_cita']" [rowHover]="true" dataKey="id" id="my-table"
+                    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} citas"
+                    [showCurrentPageReport]="true">
+                    <ng-template pTemplate="caption">
+                        <div class="p-d-flex p-ai-center p-jc-between">
+                            <h5 class="p-m-0" style="color:#3F51B5;"> FECHA: {{CurrentDate | date:'dd-MM-yyyy'}} </h5>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Buscar..." />
+                            </span>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3rem"></th>
+                            <th pSortableColumn="id_paciente.pa_cedula">Celula <p-sortIcon
+                                    field="id_paciente.pa_cedula">
+                                </p-sortIcon>
+                            </th>
+                            <th pSortableColumn="id_paciente.pa_apellidos">Nombres <p-sortIcon
+                                    field="id_paciente.pa_apellidos">
+                                </p-sortIcon>
+                            </th>
+
+                            <th>Telefono </th>
+                            <th pSortableColumn="id_hora_inicio.hora_inicio">Hora <p-sortIcon
+                                    field="id_hora_inicio.hora_inicio">
+                                </p-sortIcon>
+                            </th>
+                            <th pSortableColumn="especialidad">Especialidad
+                            </th>
+                            <th pSortableColumn="fecha_cita">Fecha <p-sortIcon field="fecha_cita"></p-sortIcon>
+                            </th>
+
+                            <th style="width: 8rem">
+                                ATENTIDO <br>
+                                <p-columnFilter type="boolean" style="text-align: center;" field="estado">
+                                </p-columnFilter>
+                            </th>
+
+                            <th>Accion</th>
+                        </tr>
+
+                    </ng-template>
+                    <ng-template pTemplate="body" let-ci let-expanded="expanded">
+                        <tr>
+                            <td>
+                                <button type="button" pButton pRipple [pRowToggler]="ci"
+                                    class="p-button-text p-button-rounded p-button-plain"
+                                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                                    (click)="estucitas(ci)" (click)="op.toggle($event)" ></button>
+                            </td>
+                            <td>{{ci.id_paciente.pa_cedula}}</td>
+                            <td>{{ci.id_paciente.pa_apellidos}} {{ci.id_paciente.pa_nombres}}</td>
+                            <td>{{ci.id_paciente.pa_telefono}}</td>
+                            <td>{{ci.id_hora_inicio.hora_inicio}}-{{ci.id_hora_fin.hora_fin}}</td>
+                            <td>{{ci.especialidad.especialidad}}</td>
+                            <td>{{ci.fecha_cita | date:'dd-MM-yyyy'}}</td>
+                            <td class="p-text-center">
+                                <i class="pi"
+                                    [ngClass]="{'true-icon pi-check-circle': ci.estado, 'false-icon pi-times-circle': !ci.estado}"
+                                    (click)="atendido(ci)"></i>
+                            </td>
+                            <th>
+
+                                <button pButton pRipple icon="pi pi-pencil" pTooltip="ACTUALIZAR"
+                                    (click)="actulizar(ci)" tooltipPosition="bottom"
+                                    [attr.disabled]="ci.estado ? '' : null"
+                                    class="p-button-rounded p-button-success p-mr-2"></button>
+                                <button pButton pRipple icon="pi pi-trash" pTooltip="ELIMINAR" tooltipPosition="bottom"
+                                    class="p-button-rounded p-button-warning p-mr-2" (click)=" deleteCita(ci)"
+                                    [attr.disabled]="ci.estado ? '' : null"></button>
+                                <button pButton pRipple icon="pi pi-file-pdf"
+                                    class="p-button-rounded p-button-danger p-mr-2" pTooltip="PDF"
+                                    (click)="imprimir(ci)" tooltipPosition="bottom"></button>
+                            </th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="9" style="text-align:left">NO HAY CITAS REGISTRADOS</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        <div class="p-d-flex p-ai-center p-jc-between">
+                            En total {{cita ? cita.length : 0 }} CITAS.
+                        </div>
+                    </ng-template>
+                </p-table>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+<p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '850px'}">
+    <ng-template pTemplate>
+        <p-table [value]="estu" selectionMode="single" [rows]="5">
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    {{nombremedisol}}: {{nombres}}
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="id_estudio.codigo_estudio">CODIGO<p-sortIcon field="id_estudio.codigo_estudio">
+                        </p-sortIcon>
+                    </th >
+                    <th colspan="4" style="text-align: center;" pSortableColumn="id_estudio.es_descripcion">EXAMEN<p-sortIcon field="id_estudio.es_descripcion">
+                        </p-sortIcon>
+                    </th>
+                    <th pSortableColumn="id_estudio.es_descripcion">ESTUDIO<p-sortIcon field="id_estudio.es_descripcion">
+                    </p-sortIcon>
+                </th>
+                    <th>ACCION</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-es>
+                <tr [pSelectableRow]="rowData">
+                    <td>{{es. id_examen.codigo_estudio}}</td>
+                    <td colspan="4" style="text-align: justify;">{{es.id_examen.ex_descripcion}}</td>
+                    <td>{{es.id_examen.id_estudio.es_descripcion}}</td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-trash" pTooltip="ELIMINAR" tooltipPosition="bottom"
+                            class="p-button-rounded p-button-warning p-mr-2" [attr.disabled]="logeo ? '' : null"
+                            (click)="deleteEsCi(es)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+</p-overlayPanel>

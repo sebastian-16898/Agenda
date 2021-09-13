@@ -1,0 +1,133 @@
+<body>
+    <div class="card">
+        <div class="p-field">
+
+            <p-toolbar styleClass="p-mb-4">
+
+                <label for="touchui">Fecha Inicial:</label>
+                <p-calendar [(ngModel)]="fecha1" [touchUI]="true" dateFormat="dd-MM-yy" [readonlyInput]="true"
+                    inputId="touchui" (onSelect)="onRowSelect()" placeholder="Seleccione la fecha inicial">
+                </p-calendar>
+
+                <label for="touchui"> Fecha Final:</label>
+                <p-calendar [(ngModel)]="fecha2" [touchUI]="true" dateFormat="dd-MM-yy" [readonlyInput]="true"
+                    inputId="touchui" (onSelect)="onRowSelect2()" placeholder="Seleccione la fecha final">
+                </p-calendar>
+
+
+                <label for="estudio"> Estudio:</label>
+                <p-multiSelect [options]="estudio" [(ngModel)]="selectEstudio" defaultLabel="Seleccione El Estudio"
+                    optionLabel="es_descripcion" class="multiselect-custom" inputId="estudio"
+                    (click)="llenarExamenes()">
+
+                    <ng-template let-value pTemplate="selectedItems">
+                        <div class="country-item country-item-value" *ngFor="let op of selectEstudio">
+                            <div>{{op.es_descripcion}}</div>
+                        </div>
+                        <div *ngIf="!selectEstudio || selectEstudio.length === 0" class="country-placeholder">
+                            Seleccione el estudio
+                        </div>
+                    </ng-template>
+                    <ng-template let-e pTemplate="item">
+                        <div class="country-item">
+                            <div> {{e.es_descripcion}}</div>
+                        </div>
+                    </ng-template>
+
+                </p-multiSelect>
+
+                <label for="examen"> Examenes:</label>
+                <p-multiSelect [options]="examen" [(ngModel)]="selectExamen" defaultLabel="Seleccione El Examen"
+                    optionLabel="codigo_estudio" class="multiselect-custom" inputId="examen">
+
+                    <ng-template let-value pTemplate="selectedItems">
+                        <div class="country-item country-item-value" *ngFor="let op of selectExamen">
+                            <div>{{op.codigo_estudio}}</div>
+                        </div>
+                        <div *ngIf="!selectExamen || selectExamen.length === 0" class="country-placeholder">
+                            Seleccione el examen
+                        </div>
+                    </ng-template>
+                    <ng-template let-e pTemplate="item">
+                        <div class="country-item">
+                            <div>{{e.codigo_estudio}}:{{e.ex_descripcion}}</div>
+                        </div>
+                    </ng-template>
+
+                </p-multiSelect>
+
+
+                <button pButton pRipple type="button" icon="pi pi-search" class="p-button-rounded p-button-success"
+                    (click)="buscar()"></button>
+                <button pButton pRipple type="button" icon="pi pi-file-pdf" (click)="pdf.saveAs('Reporte_Examen.pdf')"
+                    class="p-button-rounded p-button-danger" [attr.disabled]="logeo ? '' : null"></button>
+            </p-toolbar>
+            <br>
+            <p-progressBar [value]="value"></p-progressBar>
+            <br>
+            <kendo-pdf-export #pdf paperSize="A2" margin="2cm">
+                <table cellspacing="0" style="width: 100%; color: #444444;">
+                    <tr style=" color:#3F51B5;">
+                        <td style="width: 33%">
+                            <img src="assets/img/logo.png" alt="Hospital De La Mujer Y El Niño" ng-fallimg>
+                            <br>
+                        </td>
+
+
+                    </tr>
+                </table>
+                <hr style="display: block;height: 1px;border: 1px solid #bdc3c7;    margin: 0.5em ;    padding: 0;">
+                <table cellspacing="0" style="width: 100%;">
+                    <tr>
+                        <td
+                            style="width: 50px;text-align:center;font-size:24px;color:#3F51B5; padding:10px; border-radius: 7px ">
+                            REPORTE: {{CurrentDate | date:'dd-MM-yyyy'}}</td>
+                    </tr>
+                    <tr style=" color:#3F51B5;">
+                        <td style="width: 34%; text-align: left;">
+                            <strong style=" color:#3F51B5;">Generado por:</strong>
+                            <br>
+                            <strong> Cedula: {{cedula}}</strong>
+                            <br>
+                            <strong> Nombre: {{nombre}} </strong>
+                            <br>
+
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table cellspacing="0" style="width: 100%;">
+                    <tr>
+
+                        <td style="width: 25%;color:white;background-color:#3F51B5;padding:5px;text-align:center ">
+                            <strong style="font-size:13px;">RANGO DE BUSQUEDA</strong>
+                        </td>
+                        <td style="width: 25%; color:white;background-color:#3F51B5;padding:5px;text-align:center ">
+                            <strong style="font-size:13px;">CONCLUSION</strong>
+                        </td>
+                        <td style="width: 50%; color:white;background-color:#3F51B5;padding:5px;text-align:center ">
+                            <strong style="font-size:13px;">GRAFICO</strong>
+                        </td>
+
+
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%;padding:5px;text-align:justify;border:solid 1px #bdc3c7;font-size:15px">
+                            {{datos}}
+                        </td>
+                        <td style="width: 30%;padding:5px;text-align:justify;border:solid 1px #bdc3c7;font-size:15px">
+                            {{repre}}
+                        </td>
+                        <td style="width: 20%;padding:5px;text-align:left;border:solid 1px #bdc3c7;font-size:15px">
+                            <p-chart type="polarArea" [data]="data"></p-chart>
+                        </td>
+
+                    </tr>
+                </table>
+                <br>
+
+            </kendo-pdf-export>
+        </div>
+    </div>
+</body>

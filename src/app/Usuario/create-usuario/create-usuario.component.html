@@ -1,0 +1,121 @@
+<body>
+
+    <br>
+    <div class="p-field">
+        <div class="col-xs-11 col-sm-8 col-md-5 mx-auto">
+            <div class="card-body text-center">
+
+                <div class="p-grid p-fluid">
+                    <div class="p-col-12 p-md-6 p-lg-10">
+                        <div class="card-header">
+                            <h3>AGREGAR USUARIOS</h3>
+                        </div>
+                        <div class="alert alert-danger" role="alert" *ngIf="isError">
+                            {{msgError}}
+                        </div>
+
+                        <div class="card-body text-center">
+
+                            <input pInputText pKeyFilter="num" type="text" class="form-control" name="p_cedula"
+                                placeholder="Cedula: 0101010101" [(ngModel)]="usuarios.p_cedula" minlength="10"
+                                maxlength="10" pTooltip="Ingrese los 10 digistos de su cedula de identidad del doctor">
+
+                            <br>
+
+                            <input pInputText pKeyFilter="alpha" type="text" class="form-control" name="p_primer_nombre"
+                                placeholder="Ingresa Primer Nombre" [(ngModel)]="usuarios.p_primer_nombre" minlength="3"
+                                maxlength="50" pTooltip="Campo Obligatorio">
+
+                            <br>
+
+                            <input pInputText pKeyFilter="alpha" type="text" class="form-control"
+                                name="p_segundo_nombre" placeholder="Ingresa Segundo Nombre"
+                                [(ngModel)]="usuarios.p_segundo_nombre" minlength="3" maxlength="50">
+
+                            <br>
+
+                            <input pInputText pKeyFilter="alpha" type="text" class="form-control"
+                                name="p_primer_apellido" placeholder="Ingresa Primer Apellido"
+                                [(ngModel)]="usuarios.p_primer_apellido" minlength="3" maxlength="50"
+                                pTooltip="Campo Obligatorio">
+                            <br>
+                            <input pInputText pKeyFilter="alpha" type="text" class="form-control"
+                                name="p_segundo_apellido" placeholder="Ingresa Segundo Apellido"
+                                [(ngModel)]="usuarios.p_segundo_apellido" minlength="3" maxlength="50">
+
+
+                            <br>
+                            <input pInputText type="email" class="form-control" name="p_correo"
+                                placeholder="Ingresa Correo" [(ngModel)]="usuarios.p_correo" minlength="1"
+                                maxlength="50" pTooltip="Campo Obligatorio">
+                            <br>
+                            <input pInputText pKeyFilter="num" type="text" class="form-control" name="p_numtelefono"
+                                placeholder="Numero De Telefono" [(ngModel)]="usuarios.p_numtelefono" minlength="10"
+                                maxlength="10">
+
+                            <br>
+                            <p-dropdown [options]="perfil" [(ngModel)]="selectPerfil"
+                                placeholder="Selecccione el perfil" optionLabel="des_perfil" [showClear]="true">
+                            </p-dropdown>
+                            <!--
+                            <div class="p-toolbar-group-center">
+                                <span class="p-buttonset">
+                                    <button pButton pRipple icon="fa fa-plus-square-o"
+                                        (click)="createPanelPanel()"></button>
+                                    <button pButton pRipple icon='pi pi-pencil'
+                                        (click)="updateperfilPantalla()"></button>
+                                    <button pButton pRipple icon="pi pi-trash" (click)="deletePerfil()"></button>
+                                </span>
+                            </div>
+                            -->
+                        </div>
+                        <button (click)="guardar()" pButton type="submit" class="ui-button-rounded ui-button-success"
+                            label="Guardar"></button>
+                        <br>
+                        <button (click)="cancelar()" class="btn btn-link">Cancelar</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+    <p-dialog header="ACTUALIZAR PERFIL" [(visible)]="panelActualizar" [focusOnShow]="false" [responsive]="true"
+        showEffect="fade" [modal]="true" [style]="{width: '300px'}">
+        <div class="form-group">
+            <label>ACTUALIZAR PERFIL: {{per.des_perfil}}</label>
+            <input pInputText type="text" class="form-control" name="nombre" placeholder="Ingresa Perfil" minlength="3"
+                maxlength="50" [(ngModel)]="per.des_perfil">
+
+            <br>
+            <br>
+            <p-footer>
+
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                    (click)="blockDocument()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+                    (click)="suaveUpdatePefil()"></button>
+            </p-footer>
+        </div>
+    </p-dialog>
+
+    <p-dialog header="ACTUALIZAR PERFIL" [(visible)]="panelActualizar2" [focusOnShow]="false" [responsive]="true"
+        showEffect="fade" [modal]="true" [style]="{width: '300px'}">
+        <div class="form-group">
+            <label>AGREGAR PERFIL</label>
+            <input pInputText type="text" class="form-control" name="nombre" placeholder="Ingresa Codigo" minlength="3"
+                maxlength="50" [(ngModel)]="per.des_perfil">
+
+            <br>
+            <br>
+            <p-footer>
+
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                    (click)="blockDocument()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+                    (click)="createPerfil()"></button>
+            </p-footer>
+        </div>
+    </p-dialog>
+-->
+</body>

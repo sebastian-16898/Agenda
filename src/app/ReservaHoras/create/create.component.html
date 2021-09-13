@@ -1,0 +1,59 @@
+<body>
+    <div class="p-field">
+        <div class="col-xs-11 col-sm-8 col-md-5 mx-auto">
+            <div class="p-grid p-fluid">
+                <div class="p-col-12 p-md-6 p-lg-10">
+                    <div class="card-header">
+                        <div class="card-header">
+                            <h3 style="text-align: center;">AGREGAR RESERVA</h3>
+                        </div>
+                        <div class="alert alert-danger" role="alert" *ngIf="isError">
+                            {{msgError}}
+                        </div>
+                        <br>
+                        <p-calendar [(ngModel)]="dates_inicio" dateFormat="dd-MM-yy" [touchUI]="true"
+                            [readonlyInput]="true" inputId="touchui" [showIcon]="true" showButtonBar="true"
+                            inputId="buttonbar" placeholder="Seleccione la fecha Inicial" (onSelect)="onRowSelect()">
+
+                        </p-calendar>
+                        <br>
+                        <p-calendar [(ngModel)]="dates_fin" dateFormat="dd-MM-yy" [touchUI]="true"
+                            [readonlyInput]="true" inputId="touchui" [showIcon]="true" showButtonBar="true"
+                            inputId="buttonbar" placeholder="Seleccione la Fecha Final" (onSelect)="onRowSelect2()">
+                        </p-calendar>
+                        <br>
+
+                        <p-multiSelect [options]="hora" [(ngModel)]="selecthora" defaultLabel="Seleccione La hora "
+                            optionLabel="hora_inicio" class="multiselect-custom">
+                            <ng-template let-value pTemplate="selectedItems">
+                                <div class="country-item country-item-value" *ngFor="let option of selecthora">
+                                    <div>Inicio: {{option.hora_inicio}}-Fin: {{option.hora_fin}}</div>
+                                </div>
+                                <div *ngIf="!selecthora || selecthora.length === 0" class="country-placeholder">
+                                    Seleccione la Hora
+                                </div>
+                            </ng-template>
+                            <ng-template let-h pTemplate="item">
+                                <div class="country-item">
+                                    <div>Inicio: {{h.hora_inicio}}-Fin: {{h.hora_fin}}</div>
+                                </div>
+                            </ng-template>
+                        </p-multiSelect>
+                        <br>
+
+                        <div class="mb-3">
+                            <label for="validationTextarea">Descripcion de la reserva</label>
+                            <textarea name="textarea" class="form-control" id="validationTextarea"
+                                pTooltip="Registre el motivo de la reserva" rows="3" [(ngModel)]="text2">  </textarea>
+                        </div>
+                        <br>
+                        <button pButton type="submit" (click)="guardar()" class="ui-button-rounded ui-button-success"
+                            label="Guardar"></button>
+                        <br>
+                        <p-button label="Borrar" (click)=" borrar()" styleClass="p-button-link"></p-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

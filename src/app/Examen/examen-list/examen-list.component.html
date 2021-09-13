@@ -1,0 +1,84 @@
+<body>
+    <div class="p-field">
+        <div class="card-body text-center">
+            <div class="card-header">
+
+                <p-table #dt [value]="exa" [rows]="10" [paginator]="true"
+                    [globalFilterFields]="['codigo_estudio','id_estudio.es_descripcion']" [rowHover]="true" dataKey="id"
+                    id="my-table"
+                    currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas "
+                    [showCurrentPageReport]="true">
+
+                    <ng-template pTemplate="caption">
+                        <div class="p-d-flex p-ai-center p-jc-between">
+                            <h5 class="p-m-0">LISTA DE LOS EXAMENES</h5>
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    placeholder="Buscar..." />
+                            </span>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="codigo_estudio">CODIGO <p-sortIcon field="codigo_estudio">
+                                </p-sortIcon>
+                            </th>
+
+                            <th pSortableColumn="ex_descripcion">DESCRIPCION<p-sortIcon field="ex_descripcion">
+                                </p-sortIcon>
+                            </th>
+                            <th pSortableColumn="id_estudio.es_descripcion"> ESTUDIO<p-sortIcon
+                                    field="id_estudio.es_descripcion"></p-sortIcon>
+                            </th>
+                            <th style="text-align: center;">
+
+                                ESTADO
+                            </th>
+                            <th>ACCION</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>
+                                <p-columnFilter type="boolean" style="text-align: center;" field="estado">
+                                </p-columnFilter>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-u>
+                        <tr class="ui-selectable-row">
+
+                            <td>{{u.codigo_estudio}}</td>
+                            <td>{{u.ex_descripcion}}</td>
+                            <td style="text-align: justify;">{{u.id_estudio.es_descripcion}}</td>
+                            <td style="text-align: center;">
+                                <p-inputSwitch [(ngModel)]="u.estado" (click)="enableEstudio(u)"></p-inputSwitch>
+                            </td>
+                            <td>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
+                                    (click)="update(u)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="5" style="text-align:left">NO HAY EXAMENES REGISTRADOS</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        <div class="p-d-flex p-ai-center p-jc-between">
+                            En total {{exa ? exa.length : 0 }} Examenes.
+                        </div>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+    <br>
+</body>

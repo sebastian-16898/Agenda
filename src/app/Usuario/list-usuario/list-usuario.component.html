@@ -1,0 +1,85 @@
+<body>
+    <br>
+    <div class="container col-md-12">
+        <p-table #dt [value]="usuario" [(selection)]="selectedCustomers" dataKey="id" styleClass="ui-table-customers"
+            [rowHover]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+            [loading]="loading" [paginator]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} personas"
+            [globalFilterFields]="['p_cedula', 'p_primer_nombre','p_primer_apellido','id_perfil.des_perfil']">
+
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    <h5 class="p-m-0">LISTA DEL PERSONAL</h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                            placeholder="Buscar..." />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="cedula">CEDULA
+                    </th>
+                    <th pSortableColumn="p_primer_nombre">NOMBRE <p-sortIcon field="p_primer_nombre">
+                        </p-sortIcon>
+                    </th>
+                    <th pSortableColumn="p_primer_apellido">APELLIDO <p-sortIcon field="p_primer_apellido">
+                        </p-sortIcon>
+                    </th>
+                    <th pSortableColumn="id_perfil.des_perfil">PERFIL <p-sortIcon field="id_perfil.des_perfil">
+                        </p-sortIcon>
+                    </th>
+                    <th pSortableColumn="estado">ESTADO
+                    </th>
+                    <th pSortableColumn="activo">ACTIVO
+                    </th>
+                    <th>CLAVE</th>
+                    <th>ACCION</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-u>
+                <tr class="ui-selectable-row">
+
+                    <td>{{u.p_cedula}}</td>
+                    <td>{{u.p_primer_nombre}}</td>
+                    <td>{{u.p_primer_apellido}}</td>
+                    <td>{{u.id_perfil.des_perfil}}</td>
+                    <td>
+                        <p-inputSwitch [(ngModel)]="u.estado" (click)="estado(u)"></p-inputSwitch>
+                    </td>
+                    <td>
+                        <p-inputSwitch [(ngModel)]="u.activo" (click)="enableUser(u)"></p-inputSwitch>
+                    </td>
+                    <td>
+                        <button pButton pRipple type="button" icon="fa fa-eye"
+                            class="p-button-rounded p-button-success p-button-text" (click)="info(u)"></button>
+                    </td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                            (click)="actualizar(u)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8" style="text-align:left">NO HAY PERSONAL REGISTRADOS</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <br>
+
+
+    <p-dialog header="INFORMACION DE USUARIO" [(visible)]="panel" [focusOnShow]="false" [responsive]="true"
+        showEffect="fade" [modal]="true" [style]="{width: '300px'}">
+        <div class="form-group" style="text-align: left;">
+            USUARIO: {{User}}
+            <br>
+            Clave: {{Passw}}
+        </div>
+    </p-dialog>
+</body>

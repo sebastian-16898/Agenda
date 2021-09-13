@@ -1,0 +1,164 @@
+<style type="text/css">
+    kendo-pdf-export {
+        font-family: "DejaVu Sans", "Arial", sans-serif;
+        font-size: 12px;
+    }
+
+    table {
+        vertical-align: top;
+    }
+
+    tr {
+        vertical-align: top;
+    }
+
+    td {
+        vertical-align: top;
+    }
+
+    .text-center {
+        text-align: center
+    }
+
+    .text-right {
+        text-align: right
+    }
+
+    table th,
+    td {
+        font-size: 13px
+    }
+
+    .detalle td {
+        padding: 7px;
+    }
+
+    .border-bottom {
+        border-bottom: solic 1px #bdc3c7;
+    }
+</style>
+
+
+<div class="p-field">
+    <div class="card-body ">
+        <kendo-pdf-export #pdf paperSize="A2" margin="2cm">
+            <table cellspacing="0" style="width: 100%; color: #444444;">
+                <tr style=" color:#3F51B5;">
+                    <td style="width: 33%">
+                        <img src="assets/img/logo.png" alt="Hospital De La Mujer Y El Niño" ng-fallimg>
+                        <br>
+                    </td>
+                    <td style="width: 34%;">
+                        <strong>Cedula: {{cedula}}</strong>
+                        <br>
+                        <strong>Nombre :{{nombre}} </strong>
+                        <br>
+
+                    </td>
+                    <td style="width: 33%;">
+                        <strong>Consultorio : {{consultorio}}</strong>
+                        <br>
+                        <strong>Direccion : {{direccion}}</strong>
+                        <br>
+                    </td>
+                </tr>
+            </table>
+
+            <hr style="display: block;height: 1px;border: 1px solid #bdc3c7;    margin: 0.5em ;    padding: 0;">
+            <table cellspacing="0" style="width: 100%;">
+                <tr>
+
+                    <td
+                        style="width: 50px;text-align:center;font-size:24px;color:#3F51B5; padding:10px; border-radius: 7px ">
+                        ORDEN DE CITA
+                    </td>
+                </tr>
+            </table>
+
+            <br>
+            <table cellspacing="0" style="width: 100%;">
+                <tr>
+
+                    <td style="width: 20%;color:white;background-color:#3F51B5;padding:5px;text-align:center ">
+                        <strong style="font-size:14px;">CITA #</strong>
+                    </td>
+                    <td style="width: 20%; color:white;background-color:#3F51B5;padding:5px;text-align:center ">
+                        <strong style="font-size:14px;">CEDULA PACIENTE</strong>
+                    </td>
+                    <td style="width: 20%; color:white;background-color:#3F51B5;padding:5px;text-align:center ">
+                        <strong style="font-size:14px;">NOMBRE PACIENTE</strong>
+                    </td>
+                    <td style="width: 20%; color:white;background-color:#3F51B5;padding:5px;text-align:center ">
+                        <strong style="font-size:14px;">FECHA</strong>
+                    </td>
+                    <td style="width: 20%; color:white;background-color:#3F51B5;padding:5px;text-align:center ">
+                        <strong style="font-size:14px;">HORA</strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 20%;padding:5px;text-align:center;border:solid 1px #bdc3c7;font-size:15px">
+                        {{cita.id_cita}}
+                    </td>
+                    <td style="width: 20%;padding:5px;text-align:center;border:solid 1px #bdc3c7;font-size:15px">
+                        {{pacedula}}
+                    </td>
+                    <td style="width: 20%;padding:5px;text-align:center;border:solid 1px #bdc3c7;font-size:15px">
+                        {{nombrepa}}
+                    </td>
+                    <td style="width: 20%;padding:5px;text-align:center;border:solid 1px #bdc3c7;font-size:15px ">
+                        {{cita.fecha_cita | date:'dd-MM-yyyy'}}
+                    </td>
+                    <td style="width: 20%;padding:5px;text-align:center;border:solid 1px #bdc3c7;font-size:15px ">
+                        {{this.horasS}}
+                    </td>
+                </tr>
+
+            </table>
+
+            <br>
+            <table cellspacing="0" style="width: 100%;" class="detalle">
+
+                <tr>
+                    <td style="width: 15%; ">
+                        <strong>Cedula del Doctor: </strong>
+                    </td>
+                    <td style="width: 85%; " class="border-bottom">
+                        {{ceduladoctor}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 15%; ">
+                        <strong>Nombre del Doctor: </strong>
+                    </td>
+                    <td style="width: 85%; " class="border-bottom">
+                        {{nombredoctor}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 15%; ">
+                        <strong>Examenes: </strong>
+                    </td>
+                    <td style="width: 85%; " class="border-bottom">
+                        {{ex}}
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td style="width: 15%; ">
+                        <strong>Especialidad: </strong>
+                    </td>
+                    <td style="width: 85%; " class="border-bottom">
+                        {{especialidad}}
+                    </td>
+
+                </tr>
+            </table>
+            <div style="width:100%; border-top:dashed 1px;margin-top:10mm;margin-bottom:10mm"> </div>
+        </kendo-pdf-export>
+        <button pButton type="submit" (click)="pdf.saveAs('orden.pdf')" icon="fa fa-print"
+            class="ui-button-rounded ui-button-success" label="Imprimir"></button>
+
+    </div>
+</div>

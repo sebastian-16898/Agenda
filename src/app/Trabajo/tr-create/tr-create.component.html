@@ -1,0 +1,79 @@
+<body>
+    <br>
+    <br>
+    <div class="p-field">
+        <div class="col-xs-11 col-sm-8 col-md-5 mx-auto">
+            <div class="card-body text-center">
+
+                <div class="p-grid p-fluid">
+                    <div class="p-col-12 p-md-6 p-lg-10">
+                        <div class="card-header">
+                            <h3>AGREGAR TRABAJO</h3>
+
+                            <div class="alert alert-danger" role="alert" *ngIf="isError">
+                                {{msgError}}
+                            </div>
+
+                            <div class="card-body text-left">
+                                <p-button
+                                    [label]="selectpersona ? selectpersona.p_cedula : 'Seleccione La Persona Encargada'"
+                                    icon="pi pi-search" (click)="op.toggle($event)"></p-button>
+                                <br>
+                                <br>
+
+                                <p-dropdown [options]="espe" [(ngModel)]="selectespecialidad" optionLabel="especialidad"
+                                    placeholder="Seleccione la especialidad" [showClear]="true"
+                                    (click)="veriEspecialdiad()"></p-dropdown>
+                                <br>
+                                <p-dropdown [options]="medi" [(ngModel)]="selectmedi" optionLabel="nombre_medisol"
+                                    placeholder="Seleccione  medisol" [showClear]="true" (click)="veriMedisol()">
+                                </p-dropdown>
+
+                                <br>
+                                <br>
+
+                                <button pButton type="submit" class="ui-button-rounded ui-button-success"
+                                    label="Guardar" (click)="guardar()"></button>
+
+                                <div class="card-body text-center">
+                                    <button class="btn btn-link" (click)="borrar()">Borrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+</body>
+
+<p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
+    <ng-template pTemplate>
+        <p-table [value]="personas" selectionMode="single" [(selection)]="selectpersona"
+            (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="5">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="p_cedula">CEDULA
+                    </th>
+                    <th pSortableColumn="p_primer_nombre">NOMBRE
+                    </th>
+                    <th pSortableColumn="p_primer_apellido">APELLIDO
+                    </th>
+                    <th pSortableColumn="id_perfil.des_perfil">PERFIL
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-u>
+                <tr [pSelectableRow]="rowData">
+                    <td>{{u.p_cedula}}</td>
+                    <td>{{u.p_primer_nombre}}</td>
+                    <td>{{u.p_primer_apellido}}</td>
+                    <td>{{u.id_perfil.des_perfil}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+</p-overlayPanel>

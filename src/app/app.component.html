@@ -1,0 +1,111 @@
+<body>
+
+  <p-megaMenu [model]="items"> </p-megaMenu>
+  <router-outlet></router-outlet>
+
+  <p-dialog header="MI AGENDA V2.0" [(visible)]="panel" [closable]="false"
+    [focusOnShow]="false" [responsive]="true" showEffect="fade" [modal]="true"
+    [style]="{width: '10000px', height: '10000000px'}">
+    <div class="form-group">
+      <div class="container">
+        <div class=" mx-auto">
+          <div class="card_login">
+            <div class="card">
+              <div class="card-body text-center">
+                <form>
+                  <div class="card">
+                    <h5>INCIO</h5>
+                    <div class="p-grid">
+
+                      <div class="p-col-5 p-d-flex p-ai-center p-jc-center">
+                        <div class="p-fluid">
+                          <div class="alert alert-danger" role="alert" *ngIf="isError">
+                            {{msgError}}
+                          </div>
+                          <div class="p-field">
+                            <label for="username">USUARIO</label>
+                            <input pInputText id="username" type="text" pTooltip="Ingrese su usuario" [(ngModel)]="u"
+                              name="u" />
+                          </div>
+                          <div class="p-field">
+                            <label for="password">CONTRASEÑA</label>
+                            <input pInputText id="password" type="password" name="calve" [(ngModel)]="clave" />
+                          </div>
+                          <p-button label="INICIAR" (click)=" ingresar()"></p-button>
+                        </div>
+                      </div>
+                      <div class="p-col-2">
+                        <p-divider layout="vertical">
+                          <b> <img src="assets/img/logo.png" alt="Hospital De La Mujer Y El Niño" ng-fallimg></b>
+                        </p-divider>
+                      </div>
+                      <div class="p-col-5 p-d-flex p-ai-center p-jc-center">
+                        <p-button label="REGISTRARSE" icon="pi pi-user-plus" (click)="registrar()"
+                          styleClass="p-button-success"></p-button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p-dialog header="REGISTRO DE USUARIO" [(visible)]="displayR" [focusOnShow]="false" [responsive]="true"
+        showEffect="fade" [modal]="true" [style]="{width: '500px'}">
+
+        <div class="p-field">
+          <div class="col-xs col-sm col-md mx-auto">
+            <div class="card-body text-center">
+
+              <div class="p-grid p-fluid">
+                <div class="p-col p-md p-lg">
+                  <div class="alert alert-danger" role="alert" *ngIf="isError2">
+                    {{msgError2}}
+                  </div>
+                  <div class="p-d-flex p-ai-center p-jc-between">
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input pInputText pKeyFilter="num" minlength="10" maxlength="10" type="text" placeholder="Cedula"
+                        [(ngModel)]="cedula" pTooltip="Ingrese los 10 digistos de su cedula de identidad" />
+                    </span>
+                    <button type="button" pButton pRipple icon="pi pi-search-plus" styleClass="p-button-warn"
+                      (click)="verificar()"></button>
+                  </div>
+                  <br>
+
+                  <label style="text-align: left;">Nombres: 
+                    {{perso.p_primer_nombre}} {{perso.p_primer_apellido}}</label>
+
+                  <br>
+                  <br>
+                  <div class="form-group">
+                    <input pInputText type="text" class="form-control" name="usuario" placeholder="Ingresa Usuario"
+                      minlength="1" maxlength="50" [attr.disabled]="logeo ? '' : null" [(ngModel)]="encPass">
+                  </div>
+                  <div class="form-group">
+                    <input pInputText type="password" class="form-control" name="aclave" placeholder="Ingresa Clave"
+                      minlength="1" maxlength="50" [attr.disabled]="logeo ? '' : null" [(ngModel)]="enctexto">
+                  </div>
+
+                  <br>
+                  <br>
+                  <button type="button" class="btn btn-success" [attr.disabled]="logeo ? '' : null"
+                    (click)=" createUsu()">Guardar</button>
+
+                  <button class="btn btn-link" (click)="cancelar()">Cancelar </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-dialog>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </p-dialog>
+</body>

@@ -1,0 +1,76 @@
+<body>
+    <div class="p-field">
+        <div class="card-body text-center">
+            <div class="card-header">
+                <div class="card">
+
+                    <p-table #dt [value]="reservas" [rows]="10" [paginator]="true"
+                        [globalFilterFields]="['id_reserva','id_usuario.p_cedula.p_cedula','Fecha_inicio','Fecha_fin']"
+                        [rowHover]="true" dataKey="id" id="my-table"
+                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} reservas"
+                        [showCurrentPageReport]="true">
+                        <ng-template pTemplate="caption">
+                            <div class="p-d-flex p-ai-center p-jc-between">
+                                <h5 class="p-m-0"> RESERVA DE HORAS </h5>
+                                <span class="p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text"
+                                        (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                        placeholder="Buscar..." />
+                                </span>
+                            </div>
+                        </ng-template>
+
+                        <ng-template pTemplate="header">
+                            <tr>
+
+                                <th pSortableColumn="id_reserva">#<p-sortIcon field="id_reserva">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="id_usuario.p_cedula.p_cedula">Cedula<p-sortIcon
+                                        field="id_usuario.p_cedula.p_cedula">
+                                    </p-sortIcon>
+                                </th>
+
+                                <th>Hora </th>
+                                <th pSortableColumn="Fecha_inicio">Fecha Inicio <p-sortIcon field="Fecha_inicio">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="Fecha_fin">Fecha Fin <p-sortIcon field="fecha_cita"></p-sortIcon>
+                                </th>
+                                <th>Descripcion</th>
+                                <th>Accion</th>
+                            </tr>
+
+                        </ng-template>
+                        <ng-template pTemplate="body" let-re let-expanded="expanded">
+                            <tr>
+                                <td>{{re.id_reserva}}</td>
+                                <td>{{re.id_usuario.p_cedula.p_cedula}}</td>
+                                <td>{{re.hora_inicio.hora_inicio}}-{{re.hora_fin.hora_fin}}</td>
+                                <td>{{re.fecha_inicio| date:'dd-MM-yyyy'}}</td>
+                                <td>{{re.fecha_fin | date:'dd-MM-yyyy'}}</td>
+                                <td>{{re.descip_reserva}}</td>
+                                <td><button pButton pRipple icon="pi pi-pencil" (click)="updateReser(re)"
+                                        class="p-button-rounded p-button-success p-mr-2"></button>
+                                    <button pButton pRipple icon="pi pi-trash" (click)="deleteReser(re)"
+                                        class="p-button-rounded p-button-warning"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="5" style="text-align:left">NO HAY RESERVAS REGISTRADOS</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="summary">
+                            <div class="p-d-flex p-ai-center p-jc-between">
+                                En total {{reservas ? reservas.length : 0 }} Reservas.
+                            </div>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

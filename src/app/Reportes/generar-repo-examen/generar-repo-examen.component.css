@@ -1,0 +1,18 @@
+
+ kendo-pdf-export {
+    font-family: "DejaVu Sans", "Arial", sans-serif;
+    font-size: 12px;
+  }
+  img{
+    height: 50px;
+    width: 100px;
+    border: 2px ;
+    padding: -5px;
+  }
+
+  body{
+    background-image: url('https://us.123rf.com/450wm/microone/microone1808/microone180801145/111652448-isometric-medical-equipment-hospital-diagnostic-tools-health-care-technology-3d-machines-vector-set-.jpg?ver=6');
+}
+
+
+

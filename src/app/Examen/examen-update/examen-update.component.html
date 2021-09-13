@@ -1,0 +1,90 @@
+<body>
+    <br>
+    <br>
+    <div class="p-field">
+        <div class="col-xs-11 col-sm-8 col-md-5 mx-auto">
+            <div class="card-body text-center">
+
+                <div class="p-grid p-fluid">
+                    <div class="p-col-12 p-md-6 p-lg-10">
+                        <div class="card-header">
+                            <h3>AGREGAR EXAMENES</h3>
+
+                            <div class="alert alert-danger" role="alert" *ngIf="isError">
+                                {{msgError}}
+                            </div>
+
+                            <div class="card-body text-center">
+
+                                <p-dropdown [options]="estudio" [(ngModel)]="selecEstudio" optionLabel="es_descripcion"
+                                    placeholder="Seleccione el estudio" (click)="onRowSelect()">
+                                </p-dropdown>
+                                <div class="p-toolbar-group-center">
+                                    <span class="p-buttonset">
+                                        <button pButton pRipple icon="fa fa-plus-square-o"
+                                            (click)="agregar=true"></button>
+                                        <button pButton pRipple icon='pi pi-pencil' (click)="updateEstu()"></button>
+                                    </span>
+                                </div>
+                                <br>
+                                <input pInputText pKeyFilter="num" type="text" class="form-control" name="p_cedula"
+                                    placeholder="Codigo" [(ngModel)]="codigo" minlength="1" maxlength="10"
+                                    pTooltip="Ingrese el codigo del examen nuevo" [attr.disabled]="logeo ? '' : null">
+                                <br>
+                                <div class="mb-3">
+                                    <textarea name="textarea" class="form-control" id="validationTextarea"
+                                        placeholder="Descripcion" pTooltip="Ingrese la Descripcion del examen nuevo "
+                                        rows="3" [(ngModel)]="des" [attr.disabled]="logeo ? '' : null">  </textarea>
+                                </div>
+                                <br>
+                                <br>
+                                <button pButton type="submit" class="ui-button-rounded ui-button-success"
+                                    label="Guardar" [attr.disabled]="logeo ? '' : null" (click)="guardar()"></button>
+                                <br>
+                                <button class="btn btn-link" [attr.disabled]="logeo ? '' : null"
+                                    (click)="borrar()">Borrar </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</body>
+
+<p-dialog header="Agregar estudio" [(visible)]="agregar" [focusOnShow]="false" [responsive]="true" showEffect="fade"
+    [modal]="true" [style]="{width: '300px'}">
+    <div class="form-group">
+        <br>
+        <div class="alert alert-danger" role="alert" *ngIf="isError">
+            {{msgError}}
+        </div>
+        <br>
+        <input type="text" class="form-control" pInputText placeholder="Codigo" minlength="10" maxlength="50"
+            [(ngModel)]="Nestudi.es_descripcion" pTooltip="Ingrese el nuevo Estudio">
+    </div>
+    <p-footer>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="agregar=false"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="guardarEstu()"></button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="Update estudio" [(visible)]="update" [focusOnShow]="false" [responsive]="true" showEffect="fade"
+    [modal]="true" [style]="{width: '300px'}">
+    <div class="form-group">
+        <br>
+        <div class="alert alert-danger" role="alert" *ngIf="isError">
+            {{msgError}}
+        </div>
+        <br>
+        <input type="text" class="form-control" pInputText placeholder="Codigo" minlength="10" maxlength="50"
+            [(ngModel)]="Nestudi.es_descripcion" pTooltip="Ingrese el nuevo Estudio">
+    </div>
+    <p-footer>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="update=false"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+            (click)="guardarUpdate()"></button>
+    </p-footer>
+</p-dialog>

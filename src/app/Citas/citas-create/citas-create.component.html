@@ -1,0 +1,140 @@
+<body>
+
+    <div class="p-field">
+        <div class="col-xs-11 col-sm-8 col-md-5 mx-auto">
+            <div class="p-grid p-fluid">
+                <div class="p-col-12 p-md-6 p-lg-10">
+                    <div class="card-header">
+                        <h3 style="text-align: center;">AGREGAR CITA</h3>
+
+                        <div class="alert alert-danger" role="alert" *ngIf="isError">
+                            {{msgError}}
+                        </div>
+                        <div class="card-body text-left">
+                            <div class="p-inputgroup">
+                                <input type="text" pInputText placeholder="Cedula: 0101010101" minlength="10"
+                                    maxlength="10" pKeyFilter="num" [(ngModel)]="cedula"
+                                    pTooltip="Ingrese los 10 digistos de su cedula de identidad del paciente">
+                                <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-warn"
+                                    (click)="verificarPaciente()"></button>
+                            </div>
+                            <div class="card-header">
+
+                                <label style="text-align: left;">
+                                    Nombre: {{perso.pa_nombres}}</label>
+                                <br>
+                                <label style="text-align: left;">
+                                    Apellido: {{perso.pa_apellidos}}</label>
+                            </div>
+                            <br>
+                            <p-dropdown [options]="estudio" [(ngModel)]="selectEstudio" optionLabel="es_descripcion"
+                                placeholder="Seleccione el estudio" [showClear]="true" (click)="llenarExamenes()">
+                            </p-dropdown>
+                            <br>
+                            <p-multiSelect [options]="exa" [(ngModel)]="selectEx" defaultLabel="Seleccione El Estudio"
+                                optionLabel="codigo_estudio"  class="multiselect-custom">
+                                <ng-template let-value pTemplate="selectedItems">
+                                    <div class="country-item country-item-value" *ngFor="let op of selectEx">
+                                        <div>{{op.codigo_estudio}}
+                                            {{op.id_estudio.es_descripcion}}:{{op.ex_descripcion}}</div>
+                                    </div>
+                                    <div *ngIf="!selectEx || selectEx.length === 0" class="country-placeholder">
+                                        Seleccione el examen a realizar
+                                    </div>
+                                </ng-template>
+                                <ng-template let-e pTemplate="item">
+                                    <div class="country-item" style="text-align: justify;">
+                                        <textarea name="textarea" class="form-control" id="validationTextarea"
+                                            placeholder="Descripcion" rows="5" cols="1000" [attr.disabled]="logeo2 ? '' : null">
+                                            {{e.codigo_estudio}} {{e.id_estudio.es_descripcion}}:{{e.ex_descripcion}}
+                                         </textarea>
+                                    </div>
+                                </ng-template>
+                            </p-multiSelect>
+                            <br>
+                            <p-dropdown [options]="espe" [(ngModel)]="selectEspe" optionLabel="especialidad"
+                                placeholder="Seleccione la especialidad" [showClear]="true" (click)="llenarMedico()">
+                            </p-dropdown>
+
+                            <br>
+
+                            <p-dropdown [options]="person" [(ngModel)]="SelecPerso" optionLabel="p_primer_apellido"
+                                placeholder="Seleccione El Doctor" [showClear]="true" [filter]="true">
+                                <ng-template let-p pTemplate="item">
+                                    Dr.(a){{p.p_primer_apellido}} {{p.p_primer_nombre}}
+                                </ng-template>
+                            </p-dropdown>
+                            <br>
+
+                            <p-calendar [(ngModel)]="dates" dateFormat="dd-MM-yy" [numberOfMonths]="1" [showIcon]="true"
+                                inputId="multiplemonths" placeholder="Seleccione la fecha de la cita"
+                                (onSelect)="onRowSelect()">
+
+                            </p-calendar>
+                            <br>
+                            <p-multiSelect [options]="hora" [(ngModel)]="selecthora" defaultLabel="Seleccione La hora"
+                                optionLabel="hora_inicio" class="multiselect-custom">
+                                <ng-template let-value pTemplate="selectedItems">
+                                    <div class="country-item country-item-value" *ngFor="let option of selecthora">
+                                        <div>Inicio: {{option.hora_inicio}}-Fin: {{option.hora_fin}}</div>
+                                    </div>
+                                    <div *ngIf="!selecthora || selecthora.length === 0" class="country-placeholder">
+                                        Seleccione la Hora
+                                    </div>
+                                </ng-template>
+                                <ng-template let-h pTemplate="item">
+                                    <div class="country-item">
+                                        <div>Inicio: {{h.hora_inicio}}-Fin: {{h.hora_fin}}</div>
+                                    </div>
+                                </ng-template>
+                            </p-multiSelect>
+                            <br>
+                            <button pButton type="submit" (click)="guardarCita()"
+                                class="ui-button-rounded ui-button-success" label="Guardar"></button>
+                            <br>
+                            <p-button label="Borrar" (click)=" borrar()" styleClass="p-button-link"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<p-dialog header="CREAR PACIENTE" [(visible)]="panel" [focusOnShow]="false" [responsive]="true" showEffect="fade"
+    [modal]="true" [style]="{width: '500px'}">
+
+    <div class="alert alert-danger" role="alert" *ngIf="isError">
+        {{msgError}}
+    </div>
+
+    <div class="card-body text-center">
+
+        <input pInputText pKeyFilter="num" type="text" class="form-control" name="p_cedula"
+            placeholder="Cedula: 0101010101" [(ngModel)]="cedula" minlength="10" [attr.disabled]="logeo ? '' : null"
+            maxlength="10" pTooltip="Ingrese los 10 digistos de su cedula de identidad del doctor">
+
+        <br>
+        <input type="text" id="inputtext" pInputText class="form-control" name="pa_nombres"
+            placeholder="Ingrese Nombres" [(ngModel)]="paciente.pa_nombres" minlength="3" maxlength="50"
+            pTooltip="Campo Obligatorio">
+        <br>
+        <input type="text" id="inputtext" pInputText class="form-control" name="pa_apellidos"
+            placeholder="Ingresa Apellidos" [(ngModel)]="paciente.pa_apellidos" minlength="3" maxlength="50"
+            pTooltip="Campo Obligatorio">
+
+        <br>
+        <input pInputText pKeyFilter="num" type="text" class="form-control" name="pa_telefono"
+            placeholder="Numero De Telefono" [(ngModel)]="paciente.pa_telefono" minlength="10" maxlength="10">
+        <br>
+
+
+    </div>
+
+    <p-footer>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)=" cancelar()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+            (click)="guardarPaciente()"></button>
+    </p-footer>
+
+</p-dialog>
